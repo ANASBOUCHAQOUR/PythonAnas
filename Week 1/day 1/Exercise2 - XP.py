@@ -1,7 +1,5 @@
-age = input("Enter your age: ")
+# Calculate 
+result = (99 ** 3) * 8
 
-age = int(age)
-
-years_until_100 = 100 - age
-
-print(f"You will turn 100 in {years_until_100} years.")
+# Print the result
+print("The result of (99^3) * 8 is:", result)
