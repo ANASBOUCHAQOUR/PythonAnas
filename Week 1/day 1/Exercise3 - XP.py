@@ -1,5 +1,5 @@
 user_name = input("What is your name? ")
-my_name = "Claude"  
+my_name = "ANAS"  
 # Replace with your actual name
 if user_name.lower() == my_name.lower():
     print(f"Wow! We have the same name! {my_name} is such a cool name!")
