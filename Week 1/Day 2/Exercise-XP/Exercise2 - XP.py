@@ -14,5 +14,6 @@ for name, age in family.items():
     print(f"{name} has to pay ${price}")
 
 print(ticket_prices)    
+
 total_cost = sum(ticket_prices.values())
 print(f"The family's total cost for the movies is ${total_cost}")
