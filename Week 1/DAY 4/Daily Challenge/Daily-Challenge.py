@@ -47,65 +47,60 @@ class Pagination:
 
     def __str__(self):
         """Return a string representation of the items on the current page."""
-        return "\n".join(self.get_visible_items())  # Join the items on the current page with newlines
+        try:
+            return "\n".join(str(item) for item in self.get_visible_items())  # Convert all items to strings
+        except Exception as e:
+            return f"Error converting items to string: {str(e)}"
 
 
 # Testing the Pagination class
-alphabetList = list("abcdefghijklmnopqrstuvwxyz")  # Create a list of alphabet letters
-p = Pagination(alphabetList, 4)  # Create a Pagination object with a page size of 4
+def run_tests():
+    # Create test data
+    alphabetList = list("abcdefghijklmnopqrstuvwxyz")
+    p = Pagination(alphabetList, 4)
 
-# Testing get_visible_items
-print(p.get_visible_items())  # Output: ['a', 'b', 'c', 'd']
+    # Test 1: Basic page navigation
+    print("Test 1: Basic page navigation")
+    print("First page:", p.get_visible_items())  # Should show ['a', 'b', 'c', 'd']
+    
+    p.next_page()
+    print("Second page:", p.get_visible_items())  # Should show ['e', 'f', 'g', 'h']
+    
+    p.last_page()
+    print("Last page:", p.get_visible_items())  # Should show ['y', 'z']
 
-# Testing next_page
-p.next_page()  # Move to the next page
-print(p.get_visible_items())  # Output: ['e', 'f', 'g', 'h']
+    # Test 2: Edge cases
+    print("\nTest 2: Edge cases")
+    p.first_page()
+    p.previous_page()  # Should stay on first page
+    print("After trying to go before first page:", p.get_visible_items())
+    
+    p.last_page()
+    p.next_page()  # Should stay on last page
+    print("After trying to go past last page:", p.get_visible_items())
 
-# Testing last_page
-p.last_page()  # Move to the last page
-print(p.get_visible_items())  # Output: ['y', 'z']
+    # Test 3: Invalid page numbers
+    print("\nTest 3: Invalid page numbers")
+    try:
+        p.go_to_page(0)  # Invalid page number
+    except ValueError as e:
+        print("Error with page 0:", e)
+    
+    try:
+        p.go_to_page(10)  # Invalid page number (only 7 pages exist)
+    except ValueError as e:
+        print("Error with page 10:", e)
 
-# Testing go_to_page
-p.go_to_page(10)  # Move to the 10th page
-print(p.current_idx + 1)  # Output: 7 (1-based index)
+    # Test 4: Valid page navigation
+    print("\nTest 4: Valid page navigation")
+    p.go_to_page(2)  # Valid page number
+    print("Page 2:", p.get_visible_items())  # Should show ['e', 'f', 'g', 'h']
 
-# Testing go_to_page with invalid input (should raise ValueError)
-try:
-    p.go_to_page(0)  # Invalid page number
-except ValueError as e:
-    print(e)  # Output: Page number out of range.
+    # Test 5: String representation
+    print("\nTest 5: String representation")
+    p.first_page()
+    print("String representation of first page:")
+    print(str(p))  # Should show a\nb\nc\nd
 
-# Testing first_page and previous_page
-p.first_page()  # Move to the first page
-print(p.get_visible_items())  # Output: ['a', 'b', 'c', 'd']
-
-p.previous_page()  # Try to go to the previous page (it should stay on the first page)
-print(p.get_visible_items())  # Output: ['a', 'b', 'c', 'd']
-
-# Testing __str__ method
-print(str(p))  # Output: a\nb\nc\nd
-
-# Testing edge cases
-p.last_page()  # Go to last page
-p.next_page()  # Try to go past last page (should stay on last page)
-print(p.get_visible_items())  # Output: ['y', 'z']
-
-p.first_page()  # Go to first page
-p.previous_page()  # Try to go before first page (should stay on first page)
-print(p.get_visible_items())  # Output: ['a', 'b', 'c', 'd']
-
-# Test go_to_page with various inputs
-try:
-    p.go_to_page(-1)  # Invalid negative page
-except ValueError as e:
-    print(e)  # Output: Page number out of range.
-
-try:
-    p.go_to_page(100)  # Invalid large page number
-except ValueError as e:
-    print(e)  # Output: Page number out of range.
-
-p.go_to_page(2)  # Valid page number
-print(p.get_visible_items())  # Output: ['e', 'f', 'g', 'h']
-
-
+if __name__ == "__main__":
+    run_tests()
