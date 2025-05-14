@@ -21,11 +21,12 @@ SELECT last_name
 FROM customers
 ORDER BY last_name DESC;
 
+
 -- exercise 2
 -- Select all columns from the “customer” table
 SELECT * FROM customer;
 
--- Display full name using alias "full_name"
+-- full name using alias "full_name"
 SELECT CONCAT(first_name, ' ', last_name) AS full_name
 FROM customer;
 
