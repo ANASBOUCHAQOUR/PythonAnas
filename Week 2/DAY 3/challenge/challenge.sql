@@ -33,18 +33,18 @@ values (
     (select id from customer where first_name = 'Jerome' and last_name = 'Lalu')
 );
 
--- Query 1: Get first names of all logged-in customers
+-- Get first names of all logged-in customers
 select c.first_name
 from customer c
 join customer_profile cp on c.id = cp.customer_id
 where cp.isLoggedIn = true;
 
--- Query 2: Get all customers' first names and login status, including those without profiles
+-- Get all customers' first names and login status, including those without profiles
 select c.first_name, cp.isLoggedIn
 from customer c
 left join customer_profile cp on c.id = cp.customer_id;
 
--- Query 3: Count customers who are not logged in
+-- Count customers who are not logged in
 select count(*) as not_logged_in_count
 from customer c
 left join customer_profile cp on c.id = cp.customer_id
