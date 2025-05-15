@@ -77,12 +77,12 @@ WHERE title = 'Grosse Wonderful';
 
 -- 2. Foreign keys in customer table
 /*
-customer table foreign keys:
-- store_id → store table
-- address_id → address table
+-- customer table foreign keys:
+-- store_id → store table
+-- address_id → address table
 
-Implication:
-To insert a new customer, the store_id and address_id values must exist in their respective tables.
+-- Implication:
+-- To insert a new customer, the store_id and address_id values must exist in their respective tables.
 */
 
 -- 3. Drop the customer_review table if it exists.
