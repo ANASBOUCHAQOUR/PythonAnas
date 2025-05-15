@@ -88,51 +88,51 @@ create table library (
 );
 
 -- Insert borrowing records using subqueries to link books and students
--- Record 1: John borrowed Alice In Wonderland
+-- John borrowed Alice In Wonderland
 insert into library (book_fk_id, student_fk_id, borrowed_date) values (
     (select book_id from book where title = 'Alice In Wonderland'),
     (select student_id from student where name = 'John'),
     '15/02/2022'
 );
 
--- Record 2: Bob borrowed To kill a mockingbird
+-- Bob borrowed To kill a mockingbird
 insert into library (book_fk_id, student_fk_id, borrowed_date) values (
     (select book_id from book where title = 'To kill a mockingbird'),
     (select student_id from student where name = 'Bob'),
     '03/03/2021'
 );
 
--- Record 3: Lera borrowed Alice In Wonderland
+-- Lera borrowed Alice In Wonderland
 insert into library (book_fk_id, student_fk_id, borrowed_date) values (
     (select book_id from book where title = 'Alice In Wonderland'),
     (select student_id from student where name = 'Lera'),
     '23/05/2021'
 );
 
--- Record 4: Bob borrowed Harry Potter
+-- Bob borrowed Harry Potter
 insert into library (book_fk_id, student_fk_id, borrowed_date) values (
     (select book_id from book where title = 'Harry Potter'),
     (select student_id from student where name = 'Bob'),
     '12/08/2021'
 );
 
--- Query 4: Display all borrowing records
+-- Display all borrowing records
 select * from library;
 
--- Query 5: Show student names and their borrowed books
+-- Show student names and their borrowed books
 select s.name, b.title
 from library l
 join student s on l.student_fk_id = s.student_id
 join book b on l.book_fk_id = b.book_id;
 
--- Query 6: Calculate average age of students who borrowed Alice in Wonderland
+-- Calculate average age of students who borrowed Alice in Wonderland
 select avg(s.age) as avg_age
 from library l
 join student s on l.student_fk_id = s.student_id
 join book b on l.book_fk_id = b.book_id
 where b.title = 'Alice In Wonderland';
 
--- Query 7: Demonstrate cascade delete
+-- Demonstrate cascade delete
 -- When a student is deleted, their borrowing records are automatically removed
 delete from student where name = 'John';
 -- The records for John are automatically deleted from the library table because of ON DELETE CASCADE.
