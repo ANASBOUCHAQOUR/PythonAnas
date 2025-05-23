@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO-DO LIST</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background: linear-gradient(to bottom, #ff5252, #ff6f91, #ff7eb3, #ff8fab);
+        }
+        .container {
+            margin-top: 60px;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 30px 30px 20px 30px;
+            width: 400px;
+            max-width: 95vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #fff;
+            text-align: center;
+            font-size: 2.3rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .todo-form {
+            display: flex;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+        #taskInput {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 3px 0 0 3px;
+            font-size: 1.1rem;
+            background: #f7f7f7;
+            color: #333;
+        }
+        #taskInput:focus {
+            outline: none;
+            background: #fff;
+        }
+        .add-btn {
+            border: none;
+            background: none;
+            color: #5caaff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 0 18px;
+            cursor: pointer;
+            border-radius: 0 3px 3px 0;
+            transition: color 0.2s;
+        }
+        .add-btn:hover {
+            color: #1976d2;
+        }
+        .listTasks {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            padding: 0 0 0 0;
+            border-radius: 3px;
+            margin-bottom: 0;
+            position: relative;
+        }
+        .delete-btn {
+            background: #ff6f6f;
+            border: none;
+            color: #fff;
+            font-size: 1.1rem;
+            border-radius: 3px;
+            margin-right: 8px;
+            margin-left: 0;
+            padding: 6px 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .delete-btn:hover {
+            background: #ff5252;
+        }
+        .task-checkbox {
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            accent-color: #5caaff;
+        }
+        .task-text {
+            flex: 1;
+            font-size: 1.1rem;
+            color: #333;
+            transition: all 0.2s;
+            padding: 12px 0;
+        }
+        .task-text.done {
+            text-decoration: line-through;
+            color: #ff2e2e;
+        }
+        .task-item:not(:last-child)::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 1px;
+            background: #5caaff;
+        }
+        .clear-link {
+            color: #ff2e2e;
+            text-align: right;
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 0;
+            margin-right: 0;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .clear-link:hover {
+            color: #1976d2;
+            text-decoration: underline;
+        }
+        @media (max-width: 500px) {
+            .container {
+                width: 98vw;
+                padding: 15px 5px 10px 5px;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
+            .todo-form {
+                flex-direction: column;
+            }
+            #taskInput, .add-btn {
+                border-radius: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>TO-DO LIST</h1>
+    <div class="container">
+        <form class="todo-form" id="todoForm">
+            <input 
+                type="text" 
+                id="taskInput" 
+                placeholder="new task"
+                autocomplete="off"
+            >
+            <button type="submit" class="add-btn">ADD</button>
+        </form>
+        <div class="listTasks" id="listTasks">
+            <!-- Tasks will be added here dynamically -->
+        </div>
+        <a class="clear-link" id="clearTasks">Clear</a>
+    </div>
+    <script src="Todo-list.js"></script>
+</body>
+</html>
