@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coloring Squares</title>
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+            background: #f0f0f0;
+            min-height: 100vh;
+            padding: 20px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+        }
+
+        .container {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            gap: 20px;
+            -webkit-align-items: flex-start;
+            -ms-flex-align: start;
+            align-items: flex-start;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -webkit-justify-content: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .color-palette {
+            display: -ms-grid;
+            display: grid;
+            -ms-grid-columns: repeat(1, 1fr);
+            grid-template-columns: repeat(1, 1fr);
+            gap: 5px;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            -webkit-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            -webkit-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+            -webkit-transform-origin: center;
+            transform-origin: center;
+        }
+
+        .color-option:hover {
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+            z-index: 1;
+        }
+
+        .color-option.selected {
+            border: 2px solid #333;
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+            z-index: 2;
+        }
+
+        .drawing-area {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            -webkit-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        .drawing-grid {
+            display: -ms-grid;
+            display: grid;
+            -ms-grid-columns: repeat(20, 1fr);
+            grid-template-columns: repeat(20, 1fr);
+            gap: 1px;
+            background: #ddd;
+            border: 1px solid #999;
+            touch-action: none;
+        }
+
+        .grid-cell {
+            width: clamp(15px, 2vw, 20px);
+            height: clamp(15px, 2vw, 20px);
+            background: white;
+            cursor: crosshair;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            gap: 10px;
+            -webkit-justify-content: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        button {
+            padding: 8px 16px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            -webkit-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            min-width: 80px;
+        }
+
+        button:hover {
+            background: #45a049;
+            -webkit-transform: translateY(-1px);
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            -webkit-transform: translateY(1px);
+            transform: translateY(1px);
+        }
+
+        .eraser {
+            background: #f44336;
+        }
+
+        .eraser:hover {
+            background: #da190b;
+        }
+
+        /* Media Queries for Responsive Design */
+        @media screen and (max-width: 768px) {
+            .container {
+                gap: 10px;
+            }
+
+            .color-palette {
+                -ms-grid-columns: repeat(5, 1fr);
+                grid-template-columns: repeat(5, 1fr);
+            }
+
+            .drawing-area {
+                padding: 5px;
+            }
+
+            .grid-cell {
+                width: clamp(12px, 3vw, 15px);
+                height: clamp(12px, 3vw, 15px);
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .color-palette {
+                -ms-grid-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .controls {
+                -webkit-flex-direction: column;
+                -ms-flex-direction: column;
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        /* Touch Device Optimizations */
+        @media (hover: none) {
+            .color-option:hover {
+                -webkit-transform: none;
+                transform: none;
+            }
+
+            .color-option.selected {
+                -webkit-transform: scale(1.05);
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Coloring Squares</h1>
+    
+    <div class="container">
+        <div class="color-palette" id="colorPalette">
+            <!-- Color options will be added by JavaScript -->
+        </div>
+
+        <div class="drawing-area">
+            <div class="drawing-grid" id="drawingGrid">
+                <!-- Grid cells will be added by JavaScript -->
+            </div>
+            
+            <div class="controls">
+                <button id="clearButton">Clear</button>
+                <button id="eraserButton" class="eraser">Eraser</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="MiniProject.js"></script>
+</body>
+</html> 
