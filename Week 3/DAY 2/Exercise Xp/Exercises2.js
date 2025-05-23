@@ -21,14 +21,14 @@ function myBill() {
 
     for (const item of shoppingList) {
         if (item in stock && stock[item] > 0) {
-            total += prices[item];       // Add price to total
-            stock[item] -= 1;            // Bonus: reduce stock
+            total += prices[item];       // price to total
+            stock[item] -= 1;            // B.reduce stock
         }
     }
 
     return total;
 }
 
-// Call the function
+// Call function
 console.log("Total Bill:", myBill());
-console.log("Updated Stock:", stock); // Optional: to see the stock change
+console.log("Updated Stock:", stock); // see the stock change

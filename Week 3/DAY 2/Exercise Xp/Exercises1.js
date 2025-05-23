@@ -1,8 +1,6 @@
-// Function to display numbers divisible by a given divisor from 0 to 500, and their sum
 function displayNumbersDivisible(divisor = 23) {
-    let sum = 0;  // Changed from const to let since we need to modify it
-    const numbers = [];  // This can stay const since we only push to it
-
+    let sum = 0;  
+    const numbers = []; 
     // Loop from 0 to 500
     for (let i = 0; i <= 500; i++) {
         if (i % divisor === 0) {
@@ -17,9 +15,9 @@ function displayNumbersDivisible(divisor = 23) {
     console.log(`Sum: ${sum}`);
 }
 
-// Call the function for the original exercise (divisor 23)
+//function exercise divisor 23
 displayNumbersDivisible();
 
-// Bonus: Try with other divisors
+// Bonus: Try other divisors
 displayNumbersDivisible(3);
 displayNumbersDivisible(45);

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacation Cost Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vacation Cost Calculator</h1>
+        <form id="vacationForm">
+            <div class="form-group">
+                <label for="nights">Number of Nights at Hotel:</label>
+                <input type="number" id="nights" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                <select id="destination" required>
+                    <option value="">Select a destination</option>
+                    <option value="london">London</option>
+                    <option value="paris">Paris</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="days">Number of Days for Car Rental:</label>
+                <input type="number" id="days" min="1" required>
+            </div>
+            <button type="submit">Calculate Total Cost</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // calculate hotel cost
+        function hotelCost(nights) {
+            const costPerNight = 140;
+            return nights * costPerNight;
+        }
+
+        // calculate plane ride cost
+        function planeRideCost(destination) {
+            switch(destination.toLowerCase()) {
+                case 'london':
+                    return 183;
+                case 'paris':
+                    return 220;
+                default:
+                    return 300;
+            }
+        }
+
+        // calculate rental car cost
+        function rentalCarCost(days) {
+            const costPerDay = 40;
+            let totalCost = days * costPerDay;
+            
+            // Apply 5% discount for rentals over 10 days
+            if (days > 10) {
+                totalCost = totalCost * 0.95; // 5% discount
+            }
+            
+            return totalCost;
+        }
+
+        // calculate total vacation cost
+        function totalVacationCost(nights, destination, days) {
+            const carCost = rentalCarCost(days);
+            const hotelCostTotal = hotelCost(nights);
+            const planeCost = planeRideCost(destination);
+
+            return {
+                carCost: carCost,
+                hotelCost: hotelCostTotal,
+                planeCost: planeCost,
+                total: carCost + hotelCostTotal + planeCost
+            };
+        }
+
+        // Handle form submission
+        document.getElementById('vacationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nights = Number(document.getElementById('nights').value);
+            const destination = document.getElementById('destination').value;
+            const days = Number(document.getElementById('days').value);
+
+            const result = totalVacationCost(nights, destination, days);
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <h3>Cost Breakdown:</h3>
+                <p>Car Rental Cost: $${result.carCost.toFixed(2)}</p>
+                <p>Hotel Cost: $${result.hotelCost.toFixed(2)}</p>
+                <p>Plane Tickets Cost: $${result.planeCost.toFixed(2)}</p>
+                <h3>Total Cost: $${result.total.toFixed(2)}</h3>
+            `;
+        });
+    </script>
+</body>
+</html> 

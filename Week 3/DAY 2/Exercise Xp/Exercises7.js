@@ -14,32 +14,24 @@ const allBooks = [
     }
 ];
 
-// Get the section element
 const bookSection = document.querySelector(".listBooks");
 
-// Create and render book elements
 for (const book of allBooks) {
-    // Create book div
     const bookDiv = document.createElement("div");
     
-    // Create book details
     const bookDetails = document.createElement("p");
     bookDetails.textContent = `${book.title} written by ${book.author}`;
     
-    // Create book image
     const bookImage = document.createElement("img");
     bookImage.src = book.image;
     bookImage.width = 100;
     
-    // Set color to red if book is already read
     if (book.alreadyRead) {
         bookDetails.style.color = "red";
     }
     
-    // Append elements to book div
     bookDiv.appendChild(bookDetails);
     bookDiv.appendChild(bookImage);
     
-    // Append book div to section
     bookSection.appendChild(bookDiv);
 }
