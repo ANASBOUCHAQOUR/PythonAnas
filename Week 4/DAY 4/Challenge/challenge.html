@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Challenge Day 4 Week 4</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+  }
+  form {
+    margin-bottom: 20px;
+  }
+  input[type="text"] {
+    margin-right: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  input[type="submit"] {
+    padding: 8px 15px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  input[type="submit"]:hover {
+    background-color: #4cae4c;
+  }
+  #output {
+    margin-top: 20px;
+    font-family: monospace;
+    white-space: pre-wrap;
+  }
+</style>
+</head>
+<body>
+
+  <h1>Challenge: Form to JSON</h1>
+
+  <form id="myForm">
+    <input type="text" id="name" placeholder="Name" name="name">
+    <input type="text" id="lastName" placeholder="Last Name" name="lastName">
+    <input type="submit" value="Send">
+  </form>
+
+  <div id="output"></div>
+
+  <script src="challenge.js"></script>
+
+</body>
+</html> 

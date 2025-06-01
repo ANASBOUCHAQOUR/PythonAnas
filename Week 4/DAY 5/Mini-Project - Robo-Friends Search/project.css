@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-image: url('image/circuit-pattern.png'); /* Use correct path for main body background */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    color: rgb(101, 11, 236); /* Default text color for body */
+  }
+
+  .top-bar {
+    /* Styles for the header bar */
+    background-image: 
+      linear-gradient(rgba(0, 128, 0, 0.7), rgba(0, 128, 0, 0.7)), /* green overlay - adjusted transparency slightly */
+      url('image/card-pattern.png'); /* your image path for the header background */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 1rem 2rem; /* Adjusted padding to match the header rule */
+    color: white; /* Text color for the header content */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .top-bar h1 { /* Style the title within the top bar */
+      margin: 0;
+      color: white; /* Ensure title is white */
+  }
+  
+  .top-bar input[type="text"] { /* Style the search input within the top bar */
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: white; /* Set a white background for the search input */
+      color: #333; /* Set a dark color for the search input text */
+      width: 40%; /* Make the search bar wider - adjust as needed */
+      max-width: 300px; /* Prevent it from getting too wide on large screens */
+      /* Vertical centering is handled by align-items: center on .top-bar */
+
+  }
+  
+  
+  #robot-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .card {
+    background: white;
+    padding: 1rem;
+    border-radius: 50px;
+    width: 300px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+    background-color: #2c3e50; /* Dark blue/grey background */
+    border: 5px solid #3498db; /* Teal/light blue border */
+    color: #ecf0f1; /* Light text color for readability */
+  }
+  
+  .card img {
+    border-radius: 50%; /* Make the image circular */
+    border: 4px solid #3498db; /* Teal/light blue border around the image */
+    margin-bottom: 1rem; /* Space between image and text */
+  }
+  
+  .card h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #ecf0f1; /* Ensure heading text is light */
+  }
+  
+  .card p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #bdc3c7; /* Slightly darker light color for email */
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }  
+  
+  

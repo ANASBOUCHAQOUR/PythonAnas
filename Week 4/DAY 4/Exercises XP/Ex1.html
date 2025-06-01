@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML Form Exercise 1 (GET)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+  }
+  form {
+    border: 1px solid #ccc;
+    padding: 20px;
+    max-width: 400px;
+    margin: 20px auto;
+    border-radius: 8px;
+  }
+  div {
+    margin-bottom: 15px;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  input[type="submit"] {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+  input[type="submit"]:hover {
+    background-color: #4cae4c;
+  }
+</style>
+</head>
+<body>
+
+  <h1>Exercise 1: HTML Form (GET Method)</h1>
+
+  <form action="#" method="GET">
+    <div>
+      <label for="name_get">Name:</label>
+      <input type="text" id="name_get" name="name">
+    </div>
+    <div>
+      <label for="message_get">Message:</label>
+      <textarea id="message_get" name="message" rows="4"></textarea>
+    </div>
+    <div>
+      <input type="submit" value="Send (GET)">
+    </div>
+    <p>
+      When submitted with the **GET** method, the form data will be appended to the URL as query parameters.<br>
+      Example: `your_page.html?name=YourName&message=YourMessage`<br>
+      You will see the data directly in the browser's address bar.
+    </p>
+  </form>
+
+</body>
+</html> 
