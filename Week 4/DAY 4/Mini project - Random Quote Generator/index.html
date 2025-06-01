@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Random Quote Generator</h1>
+        
+        <div class="main-section">
+            <!-- Quote Display Section -->
+            <div class="quote-display">
+                <section id="quoteSection">
+                    <div class="quote-content" id="quoteText">
+                        Click "Generate Quote" to get started!
+                    </div>
+                    <div class="quote-author" id="quoteAuthor"></div>
+                    <div class="quote-stats" id="quoteStats"></div>
+                    
+                    <button class="generate-btn" onclick="generateRandomQuote()">
+                        Generate Quote
+                    </button>
+                    
+                    <div class="stat-buttons">
+                        <button onclick="showCharCount(true)">Chars (with spaces)</button>
+                        <button onclick="showCharCount(false)">Chars (no spaces)</button>
+                        <button onclick="showWordCount()">Word Count</button>
+                        <button class="like-btn" onclick="likeQuote()">❤️ Like</button>
+                    </div>
+                    
+                    <div class="navigation-buttons" id="navigationButtons" style="display: none;">
+                        <button class="nav-btn" onclick="previousQuote()" id="prevBtn">← Previous</button>
+                        <button class="nav-btn" onclick="nextQuote()" id="nextBtn">Next →</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Forms Section -->
+            <div class="forms-section">
+                <!-- Add Quote Form -->
+                <div class="form-container">
+                    <h3>📝 Add New Quote</h3>
+                    <form id="addQuoteForm">
+                        <div class="form-group">
+                            <label for="newQuote">Quote:</label>
+                            <textarea id="newQuote" placeholder="Enter your favorite quote..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="newAuthor">Author:</label>
+                            <input type="text" id="newAuthor" placeholder="Enter author name..." required>
+                        </div>
+                        <button type="submit">Add Quote</button>
+                    </form>
+                    <div class="success-message" id="addSuccess">Quote added successfully!</div>
+                    <div class="error-message" id="addError">Please fill in all fields!</div>
+                </div>
+
+                <!-- Filter Form -->
+                <div class="form-container">
+                    <h3>🔍 Filter by Author</h3>
+                    <form id="filterForm">
+                        <div class="form-group">
+                            <label for="authorFilter">Author Name:</label>
+                            <input type="text" id="authorFilter" placeholder="Enter author name to filter..." required>
+                        </div>
+                        <button type="submit">Filter Quotes</button>
+                        <button type="button" onclick="showAllQuotes()">Show All</button>
+                    </form>
+                    <div class="filter-results" id="filterResults"></div>
+                    <div class="error-message" id="filterError">No quotes found for this author!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
