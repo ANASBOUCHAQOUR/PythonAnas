@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Giphy GIFs</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Random Giphy GIFs</h1>
+        <form class="search-form" id="searchForm">
+            <input type="text" id="searchInput" placeholder="Enter search term..." required>
+            <button type="submit">Get Random GIF</button>
+        </form>
+        <div style="text-align: center;">
+            <button id="deleteAllBtn">Delete All GIFs</button>
+        </div>
+        <div id="gifContainer">
+            <div class="no-results">Enter a search term to find GIFs</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giphy Random GIF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .gif-container {
+            margin: 20px 0;
+        }
+
+        .gif-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .error-message {
+            color: #dc3545;
+            padding: 10px;
+            background-color: #f8d7da;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
+        .loading {
+            color: #666;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Random Giphy GIF</h1>
+        <div id="gifContainer">
+            <div class="loading">Loading random GIF...</div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My";
+        const searchTerm = "funny"; // You can change this to any search term
+
+        async function fetchRandomGif() {
+            try {
+                const url = `https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchTerm}&limit=1&offset=${Math.floor(Math.random() * 50)}`;
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.data.length === 0) {
+                    throw new Error('No GIFs found');
+                }
+
+                displayGif(data.data[0]);
+            } catch (error) {
+                console.error('Error:', error);
+                displayError(error.message);
+            }
+        }
+
+        function displayGif(gif) {
+            const container = document.getElementById('gifContainer');
+            container.innerHTML = `
+                <div class="gif-container">
+                    <img src="${gif.images.original.url}" alt="${gif.title}">
+                    <p>${gif.title}</p>
+                </div>
+            `;
+        }
+
+        function displayError(message) {
+            const container = document.getElementById('gifContainer');
+            container.innerHTML = `
+                <div class="error-message">
+                    Error: ${message}
+                </div>
+            `;
+        }
+
+        // Fetch a random GIF when the page loads
+        fetchRandomGif();
+    </script>
+</body>
+</html> 

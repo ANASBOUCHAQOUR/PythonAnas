@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giphy API 2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f0f2f5;
+    }
+
+    h1 {
+      color: #1a1a1a;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .container {
+      background-color: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .search-info {
+      text-align: center;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    #gifContainer {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .gif-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: transform 0.2s;
+    }
+
+    .gif-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .gif-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .gif-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 8px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .error-message {
+      color: #dc3545;
+      padding: 15px;
+      background-color: #f8d7da;
+      border-radius: 8px;
+      margin: 15px 0;
+      text-align: center;
+    }
+
+    .loading {
+      text-align: center;
+      color: #666;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Sun GIFs Gallery</h1>
+    <div class="search-info">Displaying 10 GIFs starting from position 2</div>
+    <div id="gifContainer">
+      <div class="loading">Loading GIFs...</div>
+    </div>
+  </div>
+
+  <script>
+    // Use the Fetch API to retrieve 10 gifs about the "sun". The starting position of the results should be 2.
+    // Make sure to check the status of the Response and to catch any occuring errors.
+
+    const API_KEY = "hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My"
+    async function fetchGIFs(searchQuery, limit, offset) {
+      try {
+        const urlWithParams = new URL("https://api.giphy.com/v1/gifs/search");
+        urlWithParams.searchParams.append("q", searchQuery);
+        urlWithParams.searchParams.append("limit", limit);
+        urlWithParams.searchParams.append("offset", offset);
+        urlWithParams.searchParams.append("rating", "g");
+        urlWithParams.searchParams.append("api_key", API_KEY);
+
+        const response = await fetch(urlWithParams);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+      }
+      catch (err) {
+        console.error('Error fetching GIFs:', err.message);
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.textContent = `Error: ${err.message}`;
+        document.getElementById('gifContainer').innerHTML = '';
+        document.getElementById('gifContainer').appendChild(errorDiv);
+        throw err;
+      }
+    }
+
+    function displayGifs(data) {
+      const container = document.getElementById('gifContainer');
+      container.innerHTML = ''; // Clear loading message
+      
+      data.data.forEach(gif => {
+        const gifDiv = document.createElement('div');
+        gifDiv.className = 'gif-item';
+        
+        const img = document.createElement('img');
+        img.src = gif.images.fixed_height.url;
+        img.alt = gif.title;
+        
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'gif-title';
+        titleDiv.textContent = gif.title;
+        
+        gifDiv.appendChild(img);
+        gifDiv.appendChild(titleDiv);
+        container.appendChild(gifDiv);
+      });
+    }
+
+    fetchGIFs("sun", 10, 2)
+      .then(data => {
+        displayGifs(data);
+      })
+      .catch(error => {
+        console.error('Failed to fetch GIFs:', error);
+      });
+  </script>
+</body>
+
+</html>
