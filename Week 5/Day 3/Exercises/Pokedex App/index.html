@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Pokedex</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="pokedex-container">
+        <div class="pokedex-header">
+            <div class="logo">POKEDEX</div>
+            <div class="lights">
+                <div class="light red"></div>
+                <div class="light yellow"></div>
+                <div class="light green"></div>
+            </div>
+        </div>
+
+        <div class="screen">
+            <div id="loading" class="loading hidden">
+                <div class="pokeball">
+                    <div class="pokeball-button"></div>
+                </div>
+                <p>Loading Pokemon...</p>
+            </div>
+
+            <div id="pokemon-display" class="pokemon-display">
+                <img id="pokemon-image" class="pokemon-image" src="" alt="Pokemon" />
+                <div class="pokemon-info">
+                    <h2 id="pokemon-name" class="pokemon-name">???</h2>
+                    <p id="pokemon-id" class="pokemon-id">#000</p>
+                    <div class="pokemon-stats">
+                        <div class="stat">
+                            <span class="stat-label">Height:</span>
+                            <span id="pokemon-height" class="stat-value">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Weight:</span>
+                            <span id="pokemon-weight" class="stat-value">-</span>
+                        </div>
+                    </div>
+                    <div id="pokemon-types" class="pokemon-types"></div>
+                </div>
+            </div>
+
+            <div id="error-message" class="error-message hidden">
+                <p>Oh no! That Pokemon isn't available...</p>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="prev-btn" class="nav-btn">◀ PREV</button>
+            <button id="random-btn" class="random-btn">RANDOM</button>
+            <button id="next-btn" class="nav-btn">NEXT ▶</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

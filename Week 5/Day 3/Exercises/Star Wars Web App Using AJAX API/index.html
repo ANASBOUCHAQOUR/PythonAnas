@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars Character Explorer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">STAR WARS</h1>
+            <p class="subtitle">Character Explorer</p>
+            <button class="fetch-btn" id="fetchBtn">
+                <i class="fas fa-rocket"></i> Find Someone
+            </button>
+        </div>
+
+        <div id="characterContainer" class="character-card hidden">
+            <div id="characterContent"></div>
+        </div>
+
+        <div id="loadingContainer" class="character-card loading hidden">
+            <div class="loading-icon">
+                <i class="fas fa-spinner"></i>
+            </div>
+            <div class="loading-text">Loading character data...</div>
+        </div>
+
+        <div id="errorContainer" class="character-card error hidden">
+            <div class="error-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="error-text">Oh No! That person isn't available.</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
