@@ -1,0 +1,2 @@
+This is some sample text for the file operations challenge.
+Node.js makes file reading easy!

@@ -21,3 +21,6 @@ env/
 
 # Linter hint file
 .hintrc 
+
+# Node.js dependencies
+node_modules/ 

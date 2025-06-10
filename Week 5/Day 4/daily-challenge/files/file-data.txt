@@ -1,2 +1,0 @@
-This is some sample text for file-data.txt.
-It demonstrates reading file content in Node.js. 

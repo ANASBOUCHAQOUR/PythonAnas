@@ -2,6 +2,10 @@
   "name": "pythonanas",
   "version": "1.0.0",
   "main": "index.js",
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "express": "^5.1.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,9 +20,6 @@
     "url": "https://github.com/ANASBOUCHAQOUR/PythonAnas/issues"
   },
   "homepage": "https://github.com/ANASBOUCHAQOUR/PythonAnas#readme",
-  "dependencies": {
-    "chalk": "^5.4.1"
-  },
   "devDependencies": {},
   "description": ""
 }

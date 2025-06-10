@@ -10,6 +10,5 @@ myTodos.addTask('Study JavaScript');
 
 myTodos.markTaskComplete(0); // Mark the first task as done
 myTodos.markTaskComplete(2); // Mark the third task as done
-
 console.log('📋 Your Todo List:');
-myTodos.listTasks(); 
+myTodos.listTasks();

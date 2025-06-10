@@ -1,5 +1,3 @@
-// challenge.js
-
 // Require modules from previous tasks
 const { greet } = require('./greeting');
 const { displayColorfulMessage } = require('./colorful-message');

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Emoji Guessing Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #5a67d8;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .player-setup {
+            margin-bottom: 2rem;
+        }
+
+        .player-setup input {
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            margin: 0 10px;
+            font-size: 1rem;
+        }
+
+        .player-setup button {
+            padding: 10px 20px;
+            background: #5a67d8;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .game-area {
+            display: none;
+        }
+
+        .emoji-display {
+            font-size: 8rem;
+            margin: 2rem 0;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .option-btn {
+            padding: 1rem;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background: #edf2f7;
+            border-color: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .score-board {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .feedback {
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+
+        .feedback.correct {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .feedback.incorrect {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .next-btn {
+            padding: 1rem 2rem;
+            background: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 1rem;
+        }
+
+        .leaderboard {
+            margin-top: 2rem;
+            text-align: left;
+        }
+
+        .leaderboard h3 {
+            text-align: center;
+            color: #5a67d8;
+            margin-bottom: 1rem;
+        }
+
+        .leader-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: #f7fafc;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Emoji Guessing Game</h1>
+        
+        <div class="player-setup" id="playerSetup">
+            <p>Enter your name to start playing:</p>
+            <input type="text" id="playerName" placeholder="Your name" maxlength="20">
+            <button onclick="startGame()">Start Game</button>
+        </div>
+
+        <div class="game-area" id="gameArea">
+            <div class="score-board">
+                <p>Player: <span id="currentPlayer"></span></p>
+                <p>Score: <span id="score">0</span> / <span id="totalGuesses">0</span></p>
+                <p>Accuracy: <span id="accuracy">0</span>%</p>
+            </div>
+
+            <div class="emoji-display" id="emojiDisplay">🤔</div>
+            
+            <div class="options" id="options">
+                <!-- Options will be populated by JavaScript -->
+            </div>
+
+            <div class="feedback hidden" id="feedback"></div>
+            
+            <button class="next-btn hidden" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+
+            <div class="leaderboard">
+                <h3>🏆 Leaderboard</h3>
+                <div id="leaderboardList">
+                    <!-- Leaderboard will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPlayer = '';
+        let currentQuestion = null;
+
+        async function startGame() {
+            const nameInput = document.getElementById('playerName');
+            const playerName = nameInput.value.trim();
+            
+            if (!playerName) {
+                alert('Please enter your name!');
+                return;
+            }
+            
+            currentPlayer = playerName;
+            document.getElementById('currentPlayer').textContent = playerName;
+            document.getElementById('playerSetup').style.display = 'none';
+            document.getElementById('gameArea').style.display = 'block';
+            
+            await loadPlayerStats();
+            await loadLeaderboard();
+            await nextQuestion();
+        }
+
+        async function loadPlayerStats() {
+            try {
+                const response = await fetch(`/api/player/${currentPlayer}`);
+                const stats = await response.json();
+                
+                document.getElementById('score').textContent = stats.score;
+                document.getElementById('totalGuesses').textContent = stats.totalGuesses;
+                document.getElementById('accuracy').textContent = stats.accuracy;
+            } catch (error) {
+                console.error('Error loading player stats:', error);
+            }
+        }
+
+        async function nextQuestion() {
+            try {
+                const response = await fetch('/api/question');
+                currentQuestion = await response.json();
+                
+                document.getElementById('emojiDisplay').textContent = currentQuestion.emoji;
+                
+                const optionsContainer = document.getElementById('options');
+                optionsContainer.innerHTML = '';
+                
+                currentQuestion.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.className = 'option-btn';
+                    button.textContent = option;
+                    button.onclick = () => submitGuess(option);
+                    optionsContainer.appendChild(button);
+                });
+                
+                document.getElementById('feedback').classList.add('hidden');
+                document.getElementById('nextBtn').classList.add('hidden');
+                
+            } catch (error) {
+                console.error('Error loading question:', error);
+            }
+        }
+
+        async function submitGuess(guess) {
+            try {
+                const response = await fetch('/api/guess', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        guess: guess,
+                        playerName: currentPlayer
+                    })
+                });
+                
+                const result = await response.json();
+                
+                // Update score display
+                document.getElementById('score').textContent = result.score;
+                document.getElementById('totalGuesses').textContent = result.totalGuesses;
+                document.getElementById('accuracy').textContent = result.accuracy;
+                
+                // Show feedback
+                const feedback = document.getElementById('feedback');
+                feedback.classList.remove('hidden', 'correct', 'incorrect');
+                
+                if (result.correct) {
+                    feedback.textContent = '🎉 Correct! Well done!';
+                    feedback.classList.add('correct');
+                } else {
+                    feedback.textContent = `❌ Wrong! The correct answer was: ${result.correctAnswer}`;
+                    feedback.classList.add('incorrect');
+                }
+                
+                document.getElementById('nextBtn').classList.remove('hidden');
+                
+                // Disable option buttons
+                const optionBtns = document.querySelectorAll('.option-btn');
+                optionBtns.forEach(btn => btn.disabled = true);
+                
+                // Update leaderboard
+                await loadLeaderboard();
+                
+            } catch (error) {
+                console.error('Error submitting guess:', error);
+            }
+        }
+
+        async function loadLeaderboard() {
+            try {
+                const response = await fetch('/api/leaderboard');
+                const leaderboard = await response.json();
+                
+                const leaderboardList = document.getElementById('leaderboardList');
+                leaderboardList.innerHTML = '';
+                
+                if (leaderboard.length === 0) {
+                    leaderboardList.innerHTML = '<p>No scores yet!</p>';
+                    return;
+                }
+                
+                leaderboard.forEach((player, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'leader-item';
+                    
+                    const position = index + 1;
+                    const medal = position === 1 ? '🥇' : position === 2 ? '🥈' : position === 3 ? '🥉' : `${position}.`;
+                    
+                    item.innerHTML = `
+                        <span>${medal} ${player.name}</span>
+                        <span>${player.score} points</span>
+                    `;
+                    
+                    leaderboardList.appendChild(item);
+                });
+                
+            } catch (error) {
+                console.error('Error loading leaderboard:', error);
+            }
+        }
+    </script>
+</body>
+</html>
