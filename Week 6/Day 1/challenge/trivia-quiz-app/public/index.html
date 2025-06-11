@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Quiz Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+        }
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        .question-area {
+            margin-bottom: 25px;
+        }
+        #question-text {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .option-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .option-button:hover {
+            background-color: #0056b3;
+        }
+        .option-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #feedback {
+            font-size: 1.2em;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        #score-display {
+            font-size: 1.3em;
+            margin-top: 20px;
+            color: #333;
+        }
+        #restart-button {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+            font-size: 1em;
+        }
+        #restart-button:hover {
+            background-color: #5a6268;
+        }
+        .correct {
+            background-color: #28a745 !important;
+            color: white;
+        }
+        .incorrect {
+            background-color: #dc3545 !important;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Trivia Quiz Game</h1>
+        <div class="question-area">
+            <p id="question-text">Loading question...</p>
+            <div class="options-grid" id="options-grid">
+                <!-- Options buttons will be injected here by JavaScript -->
+            </div>
+        </div>
+        <div id="feedback"></div>
+        <div id="score-display">Score: 0</div>
+        <button id="restart-button" style="display:none;">Restart Quiz</button>
+    </div>
+
+    <script>
+        const questionTextElement = document.getElementById('question-text');
+        const optionsGridElement = document.getElementById('options-grid');
+        const feedbackElement = document.getElementById('feedback');
+        const scoreDisplayElement = document.getElementById('score-display');
+        const restartButton = document.getElementById('restart-button');
+
+        let currentScore = 0;
+
+        async function fetchQuestion() {
+            try {
+                const response = await fetch('http://localhost:3000/quiz');
+                const data = await response.json();
+                if (data.question) {
+                    questionTextElement.textContent = data.question;
+                    generateOptions(data.options || []); // Assuming backend sends options
+                    feedbackElement.textContent = '';
+                    restartButton.style.display = 'none';
+                    updateScoreDisplay();
+                } else if (data.finalScore !== undefined) {
+                    endGame(data.finalScore);
+                } else {
+                    questionTextElement.textContent = 'No more questions. Start a new quiz!';
+                    optionsGridElement.innerHTML = '';
+                    restartButton.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error fetching question:', error);
+                questionTextElement.textContent = 'Failed to load quiz. Please try again later.';
+            }
+        }
+
+        function generateOptions(options) {
+            optionsGridElement.innerHTML = '';
+            // For now, since backend only sends question, we'll manually create dummy options
+            // In a real scenario, the backend would provide multiple choices
+            const dummyOptions = ["Option A", "Option B", "Option C", "Option D"]; // Replace with actual options from backend
+
+            dummyOptions.forEach(option => {
+                const button = document.createElement('button');
+                button.classList.add('option-button');
+                button.textContent = option;
+                button.onclick = () => submitAnswer(option);
+                optionsGridElement.appendChild(button);
+            });
+            // Re-fetch question to trigger quiz start if it was finished
+            if (questionTextElement.textContent === 'No more questions. Start a new quiz!') {
+                fetchQuestion();
+            }
+        }
+
+        async function submitAnswer(answer) {
+            const buttons = optionsGridElement.querySelectorAll('.option-button');
+            buttons.forEach(button => button.disabled = true); // Disable buttons after answering
+
+            try {
+                const response = await fetch('http://localhost:3000/quiz', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ answer: answer })
+                });
+                const data = await response.json();
+
+                if (data.message) {
+                    feedbackElement.textContent = data.message;
+                    feedbackElement.className = data.message.includes('Correct') ? 'correct' : 'incorrect';
+                }
+
+                if (data.finalScore !== undefined) {
+                    endGame(data.finalScore);
+                } else if (data.nextQuestion) {
+                    currentScore += (data.message.includes('Correct') ? 1 : 0); // Update score based on feedback
+                    updateScoreDisplay();
+                    setTimeout(() => {
+                        questionTextElement.textContent = data.nextQuestion;
+                        buttons.forEach(button => {
+                            button.disabled = false;
+                            button.classList.remove('correct', 'incorrect');
+                        });
+                        feedbackElement.textContent = '';
+                        // Regeneration of options for next question
+                        generateOptions([]); // Backend doesn't send options for next, so re-generating dummy. Adjust as per backend
+                    }, 1500); // Delay before showing next question
+                } else {
+                    questionTextElement.textContent = 'Something went wrong. Please restart.';
+                    restartButton.style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error('Error submitting answer:', error);
+                feedbackElement.textContent = 'Error submitting answer.';
+                buttons.forEach(button => button.disabled = false); // Re-enable buttons on error
+            }
+        }
+
+        function updateScoreDisplay() {
+            scoreDisplayElement.textContent = `Score: ${currentScore}`;
+        }
+
+        function endGame(finalScore) {
+            questionTextElement.textContent = `Quiz Over! Your final score is ${finalScore}.`;
+            optionsGridElement.innerHTML = '';
+            feedbackElement.textContent = '';
+            restartButton.style.display = 'block';
+            currentScore = finalScore; // Ensure currentScore is accurate at game end
+            updateScoreDisplay();
+        }
+
+        restartButton.addEventListener('click', () => {
+            currentScore = 0; // Reset score on restart
+            fetchQuestion();
+        });
+
+        // Initial load
+        fetchQuestion();
+    </script>
+</body>
+</html> 
