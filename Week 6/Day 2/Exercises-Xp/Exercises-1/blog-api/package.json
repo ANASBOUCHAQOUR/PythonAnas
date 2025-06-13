@@ -1,5 +1,5 @@
 {
-  "name": "math-app",
+  "name": "blog-api",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "lodash": "^4.17.21"
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "pg": "^8.16.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
