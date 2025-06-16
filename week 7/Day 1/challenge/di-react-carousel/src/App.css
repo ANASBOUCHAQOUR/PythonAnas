@@ -1,0 +1,12 @@
+.App {
+    max-width: 960px;
+    margin: 50px auto;
+    font-family: sans-serif;
+  }
+  
+  /* Optional: Improve legend styling */
+  .carousel .legend {
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 1 !important;
+    font-size: 1.2rem;
+  }
