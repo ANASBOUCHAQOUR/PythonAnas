@@ -1,0 +1,67 @@
+/* General container for the whole app */
+.voting-app-container {
+  font-family: sans-serif;
+  text-align: center;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Main title style */
+.voting-title {
+  font-size: 2.5em; /* Larger font size */
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Container for the list of languages */
+.language-list {
+  max-width: 450px;
+  width: 100%;
+}
+
+/* Style for each language row */
+.language-item {
+  background-color: #FFF0DB; /* Light orange background */
+  border: 1px solid #000000;  /* Black border */
+  border-radius: 4px;       /* Slightly rounded corners */
+  padding: 15px 20px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+/* Style for the vote count number */
+.votes-count {
+  font-weight: normal;
+  color: #333;
+  width: 50px; /* Give it a fixed width for alignment */
+  text-align: left;
+}
+
+/* Style for the language name */
+.language-name {
+  font-weight: normal;
+  color: #333;
+  flex-grow: 1; /* Allows it to take up available space */
+  text-align: left;
+  margin-left: 20px;
+}
+
+/* Style for the "Click Here" button */
+.vote-button {
+  color: #008000; /* Green color */
+  font-weight: normal;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1em; /* Inherit font size from parent */
+  padding: 0;
+}
+
+.vote-button:hover {
+  text-decoration: underline; /* Add underline on hover for better UX */
+}
