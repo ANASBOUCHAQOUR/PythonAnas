@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "bootstrap": "^5.3.7",
     "chalk": "^5.4.1",
     "express": "^5.1.0",
     "express-rate-limit": "^7.5.0",
     "jsonwebtoken": "^9.0.2",
+    "react-router-dom": "^7.6.2",
     "uuid": "^11.1.0"
   },
   "scripts": {
