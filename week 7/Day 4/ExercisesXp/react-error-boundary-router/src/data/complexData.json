@@ -1,0 +1,9 @@
+{
+    "SocialMedias": ["Facebook", "Twitter", "LinkedIn"],
+    "Skills": {"Frontend": ["HTML", "CSS", "React"], "Backend": ["Node", "Express"]},
+    "Experiences": [
+      {"year": 2020, "company": "Company A"},
+      {"year": 2021, "company": "Company B"}
+    ]
+  }
+  
